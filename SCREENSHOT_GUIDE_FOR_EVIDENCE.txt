@@ -1,0 +1,882 @@
+================================================================================
+IPCR SECURITY TESTING - SCREENSHOT EVIDENCE GUIDE
+================================================================================
+
+This guide tells you EXACTLY what to screenshot for each test as evidence/proof.
+Follow the instructions below to capture all required screenshots.
+
+IMPORTANT NOTES:
+- Take screenshots in FULL SCREEN for clarity
+- Make sure code is readable (zoom in if needed)
+- Blur/redact any real passwords or sensitive data
+- Number your screenshots as indicated (e.g., Screenshot_A01.png)
+- Save all screenshots in a folder named "Security_Evidence"
+
+================================================================================
+SECTION A: CORE SECURITY PRINCIPLES
+================================================================================
+
+Screenshot A01 - Confidentiality (.env System)
+----------------------------------------------
+WHAT TO SHOW: Database credentials are NOT hardcoded
+
+HOW TO CAPTURE:
+1. Open file: c:\xampp\htdocs\NEW-IPCR\config\database.php
+2. Scroll to lines showing:
+   $dbHost = getenv('DB_HOST');
+   $dbPass = getenv('DB_PASS');
+3. Make sure you can see the getenv() calls (NOT hardcoded values)
+4. Take screenshot of the code section
+
+ALTERNATE VIEW:
+1. Open .env.example file
+2. Show it contains DB_PASS=your_password_here (template only)
+3. Show .gitignore file includes ".env" entry
+
+FILE TO OPEN: config/database.php (lines 15-25)
+SAVE AS: Screenshot_A01_env_system.png
+
+---
+
+Screenshot A02 - Integrity (Audit Logging)
+-------------------------------------------
+WHAT TO SHOW: System tracks all important actions
+
+HOW TO CAPTURE:
+Option 1 - Show audit log entries in database:
+1. Open phpMyAdmin (http://localhost/phpmyadmin)
+2. Select database: ipcr_system
+3. Click on table: audit_log
+4. Show rows with actions like 'login', 'create', 'update', 'delete'
+5. Make sure columns visible: action, entity_type, performed_by, performed_at
+6. Take screenshot
+
+Option 2 - Show audit log code:
+1. Open file: config/auth.php
+2. Scroll to auditLog() function (around line 220)
+3. Show the function implementation
+4. Take screenshot
+
+FILE TO OPEN: phpMyAdmin → audit_log table OR config/auth.php
+SAVE AS: Screenshot_A02_audit_log.png
+
+---
+
+Screenshot A03 - Availability (Account Lockout)
+------------------------------------------------
+WHAT TO SHOW: Account locks after 5 failed login attempts
+
+HOW TO CAPTURE:
+1. Open your browser to: http://localhost/NEW-IPCR/
+2. Try to login with WRONG password 5 times
+3. On 6th attempt, you should see: "Account locked. Try again in X minutes"
+4. Take screenshot of the lockout message
+
+ALTERNATE VIEW (Show code):
+1. Open file: config/auth.php
+2. Scroll to loginUser() function (around line 180)
+3. Show the lockout logic (lines checking failed_attempts >= 5)
+4. Take screenshot
+
+FILE TO OPEN: Login page after 5 failed attempts OR config/auth.php
+SAVE AS: Screenshot_A03_account_lockout.png
+
+---
+
+Screenshot A04 - Authentication (bcrypt Hashing)
+------------------------------------------------
+WHAT TO SHOW: Passwords are hashed with bcrypt
+
+HOW TO CAPTURE:
+1. Open phpMyAdmin
+2. Select database: ipcr_system
+3. Click on table: users
+4. Show the password_hash column
+5. You should see values like: $2y$10$... (bcrypt hash format)
+6. Take screenshot (make sure actual hashes are visible)
+
+ALTERNATE VIEW (Show code):
+1. Open file: config/auth.php
+2. Show hashPassword() function (line 253)
+3. Show it uses password_hash() with PASSWORD_BCRYPT
+4. Take screenshot
+
+FILE TO OPEN: phpMyAdmin → users table OR config/auth.php
+SAVE AS: Screenshot_A04_bcrypt_hashing.png
+
+---
+
+Screenshot A05 - Authorization (requireRole Function)
+------------------------------------------------------
+WHAT TO SHOW: Pages check user roles before allowing access
+
+HOW TO CAPTURE:
+1. Open file: admin/users.php
+2. Show the TOP of the file (lines 1-10)
+3. Must show: requireRole('admin', 'dean');
+4. This proves only admin/dean can access this page
+5. Take screenshot
+
+ADDITIONAL:
+1. Open file: config/auth.php
+2. Scroll to requireRole() function (around line 65)
+3. Show the implementation
+4. Take screenshot
+
+FILE TO OPEN: admin/users.php (top) AND config/auth.php
+SAVE AS: Screenshot_A05_require_role.png
+
+---
+
+Screenshot A06 - Least Privilege (DB Permissions Guide)
+--------------------------------------------------------
+WHAT TO SHOW: Database permissions are documented
+
+HOW TO CAPTURE:
+1. Open file: DATABASE_SECURITY_GUIDE.md
+2. Show the section "RECOMMENDED PERMISSIONS"
+3. Must show the SQL commands for granting SELECT, INSERT, UPDATE, DELETE only
+4. Take screenshot showing the guide content
+
+FILE TO OPEN: DATABASE_SECURITY_GUIDE.md
+SAVE AS: Screenshot_A06_db_permissions_guide.png
+
+---
+
+Screenshot A07 - Defense in Depth (Multiple Security Layers)
+-------------------------------------------------------------
+WHAT TO SHOW: Multiple security controls working together
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Take screenshot showing:
+   - Session security settings (lines 5-20)
+   - CSRF functions (lines 75-123)
+   - Authorization checks (requireRole, requireLogin)
+3. Show that multiple security features exist in one file
+
+ALTERNATE VIEW:
+1. Create a simple list/document showing:
+   ✅ Input Validation
+   ✅ Prepared Statements
+   ✅ Output Encoding (h() function)
+   ✅ CSRF Protection
+   ✅ Authorization Checks
+   ✅ Audit Logging
+   ✅ Session Security
+2. Take screenshot
+
+FILE TO OPEN: config/auth.php (overview)
+SAVE AS: Screenshot_A07_defense_in_depth.png
+
+---
+
+Screenshot A08 - Fail Securely (Generic Error Messages)
+--------------------------------------------------------
+WHAT TO SHOW: Errors don't expose technical details
+
+HOW TO CAPTURE:
+1. Open file: config/error-handler.php
+2. Show the generic error message section (around line 60-80)
+3. Must show HTML with "⚠️ Something Went Wrong" message
+4. Take screenshot
+
+ADDITIONAL TEST:
+1. Try to access a non-existent page: http://localhost/NEW-IPCR/test123.php
+2. Take screenshot of error page (should NOT show stack trace)
+
+FILE TO OPEN: config/error-handler.php
+SAVE AS: Screenshot_A08_generic_errors.png
+
+---
+
+Screenshot A09 - Secure Defaults (Production Settings)
+-------------------------------------------------------
+WHAT TO SHOW: Production settings are documented and secure
+
+HOW TO CAPTURE:
+1. Open file: PRODUCTION_VERIFICATION_CHECKLIST.md
+2. Scroll to "PHP Configuration" section
+3. Show settings like:
+   display_errors = Off
+   log_errors = On
+   error_reporting = E_ALL
+4. Take screenshot
+
+FILE TO OPEN: PRODUCTION_VERIFICATION_CHECKLIST.md
+SAVE AS: Screenshot_A09_production_settings.png
+
+---
+
+Screenshot A10 - Privacy by Design (Minimal Data Collection)
+-------------------------------------------------------------
+WHAT TO SHOW: Only necessary fields are collected
+
+HOW TO CAPTURE:
+1. Open browser to: http://localhost/NEW-IPCR/admin/users.php
+2. Click "Add New User" button
+3. Show the form with fields:
+   - Employee ID
+   - First Name, Last Name (required)
+   - Optional: Middle Name, Suffix, Email, Position
+4. Take screenshot of the form
+5. Point out that sensitive fields like SSN, birthday, etc. are NOT collected
+
+FILE TO OPEN: Browser → admin/users.php → Add New User modal
+SAVE AS: Screenshot_A10_minimal_data.png
+
+================================================================================
+SECTION B: THREAT, VULNERABILITY, EXPLOIT, IMPACT, AND RISK
+================================================================================
+
+Screenshot B01 - Asset Identification
+--------------------------------------
+WHAT TO SHOW: Valuable assets are identified
+
+HOW TO CAPTURE:
+1. Open file: SECURITY_STATUS_REPORT.md
+2. Scroll to section showing assets
+3. Take screenshot showing list of assets protected
+
+FILE TO OPEN: SECURITY_STATUS_REPORT.md
+SAVE AS: Screenshot_B01_assets.png
+
+---
+
+Screenshot B02 - Threat Scenarios
+----------------------------------
+WHAT TO SHOW: Threats are documented
+
+HOW TO CAPTURE:
+1. Open file: SECURITY_STATUS_REPORT.md or SECURITY_FIXES_COMPLETED.md
+2. Show section listing threats addressed
+3. Take screenshot
+
+FILE TO OPEN: SECURITY_STATUS_REPORT.md
+SAVE AS: Screenshot_B02_threats.png
+
+---
+
+Screenshot B03 - Vulnerability Checks (Defect Log)
+---------------------------------------------------
+WHAT TO SHOW: All vulnerabilities documented
+
+HOW TO CAPTURE:
+1. Open file: SECURITY_FIXES_COMPLETED.md
+2. Scroll to defect log showing SEC-001 through SEC-013
+3. Take screenshot showing all findings with status "FIXED" or "DOCUMENTED"
+
+FILE TO OPEN: SECURITY_FIXES_COMPLETED.md
+SAVE AS: Screenshot_B03_defect_log.png
+
+---
+
+Screenshot B04 - Exploit Validation (Code Review Evidence)
+-----------------------------------------------------------
+WHAT TO SHOW: Security review was conducted
+
+HOW TO CAPTURE:
+1. Open file: SECURITY_TEST_RESULTS_FINAL.md
+2. Show section "DETAILED VERIFICATION"
+3. Take screenshot showing verification methods used
+
+FILE TO OPEN: SECURITY_TEST_RESULTS_FINAL.md
+SAVE AS: Screenshot_B04_code_review.png
+
+---
+
+Screenshot B05 - Impact Assessment
+-----------------------------------
+WHAT TO SHOW: Impact of vulnerabilities documented
+
+HOW TO CAPTURE:
+1. Open file: SECURITY_STATUS_REPORT.md
+2. Show section with impact descriptions for each finding
+3. Take screenshot
+
+FILE TO OPEN: SECURITY_STATUS_REPORT.md
+SAVE AS: Screenshot_B05_impact.png
+
+---
+
+Screenshot B06 - Risk Rating (Score Improvement)
+-------------------------------------------------
+WHAT TO SHOW: Risk score improved from 7.8 to 10.0
+
+HOW TO CAPTURE:
+1. Open file: SECURITY_FIXES_COMPLETED.md
+2. Find the section "SECURITY SCORE UPDATE"
+3. Must show: Before 7.8/10 → After 10.0/10
+4. Take screenshot
+
+FILE TO OPEN: SECURITY_FIXES_COMPLETED.md
+SAVE AS: Screenshot_B06_risk_score.png
+
+================================================================================
+SECTION C: COMMON WEB APPLICATION THREATS
+================================================================================
+
+Screenshot C01 - Broken Access Control
+---------------------------------------
+WHAT TO SHOW: Authorization checks prevent unauthorized access
+
+HOW TO CAPTURE:
+1. Open file: admin/users.php (or any admin page)
+2. Show requireRole('admin') at the top
+3. Take screenshot
+
+FILE TO OPEN: admin/users.php (lines 1-10)
+SAVE AS: Screenshot_C01_access_control.png
+
+---
+
+Screenshot C02 - SQL Injection Prevention (Prepared Statements)
+----------------------------------------------------------------
+WHAT TO SHOW: All queries use prepared statements
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Find any database query (e.g., in loginUser function around line 180)
+3. Must show:
+   $st = $db->prepare("SELECT * FROM users WHERE employee_id = ?");
+   $st->execute([$employeeId]);
+4. Take screenshot showing NO string concatenation in queries
+
+ADDITIONAL EXAMPLE:
+1. Open admin/users.php
+2. Find query around line 30-40
+3. Show another example of prepared statements
+4. Take screenshot
+
+FILE TO OPEN: config/auth.php OR admin/users.php
+SAVE AS: Screenshot_C02_prepared_statements.png
+
+---
+
+Screenshot C03 - XSS Prevention (h() Function)
+-----------------------------------------------
+WHAT TO SHOW: User output is encoded
+
+HOW TO CAPTURE:
+1. Open file: admin/users.php
+2. Find examples like: <?= h($user['first_name']) ?>
+3. Show multiple instances (at least 3-5 examples visible)
+4. Take screenshot
+
+ALSO SHOW h() function definition:
+1. Open config/auth.php
+2. Scroll to line 265
+3. Show: function h(mixed $val): string {
+           return htmlspecialchars((string)($val ?? ''), ENT_QUOTES, 'UTF-8');
+         }
+4. Take screenshot
+
+FILE TO OPEN: admin/users.php (showing usage) AND config/auth.php (showing definition)
+SAVE AS: Screenshot_C03_xss_prevention.png
+
+---
+
+Screenshot C04 - CSRF Protection
+---------------------------------
+WHAT TO SHOW: CSRF tokens protect forms
+
+HOW TO CAPTURE:
+Method 1 - Show form with token:
+1. Open browser to: http://localhost/NEW-IPCR/admin/users.php
+2. Right-click → View Page Source
+3. Search for: csrf_token
+4. Show hidden input: <input type="hidden" name="csrf_token" value="...">
+5. Take screenshot
+
+Method 2 - Show code:
+1. Open config/auth.php
+2. Show generateCSRFToken() function (around line 85)
+3. Show verifyCSRFToken() function (around line 95)
+4. Show requireCSRF() function (around line 105)
+5. Take screenshot
+
+FILE TO OPEN: Browser page source OR config/auth.php
+SAVE AS: Screenshot_C04_csrf_protection.png
+
+---
+
+Screenshot C05 - Authentication (Password Hashing + Lockout)
+-------------------------------------------------------------
+SAME AS A04 - Use Screenshot_A04_bcrypt_hashing.png
+Can also show lockout code in loginUser() function
+
+---
+
+Screenshot C06 - Session Security
+----------------------------------
+WHAT TO SHOW: Session cookies have security flags
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Show startSecureSession() function (lines 5-47)
+3. Must show:
+   - ini_set('session.cookie_httponly', 1);
+   - ini_set('session.cookie_samesite', 'Strict');
+   - Secure flag conditional on HTTPS
+   - Session regeneration code
+   - Idle timeout check
+4. Take screenshot
+
+FILE TO OPEN: config/auth.php (startSecureSession function)
+SAVE AS: Screenshot_C06_session_security.png
+
+---
+
+Screenshot C07 - Security Misconfiguration
+-------------------------------------------
+WHAT TO SHOW: Production settings documented
+
+SAME AS A09 - Use Screenshot_A09_production_settings.png
+
+---
+
+Screenshot C08 - Sensitive Data Exposure (.env System)
+-------------------------------------------------------
+WHAT TO SHOW: Secrets not hardcoded + .gitignore
+
+HOW TO CAPTURE:
+1. Open file: .gitignore
+2. Show it contains: .env
+3. Take screenshot
+
+ALSO SHOW:
+1. Open .env.example
+2. Show it's a template (DB_PASS=your_password_here)
+3. Take screenshot
+
+FILE TO OPEN: .gitignore AND .env.example
+SAVE AS: Screenshot_C08_secret_handling.png
+
+---
+
+Screenshot C09 - Component Versions
+------------------------------------
+WHAT TO SHOW: Dependencies documented
+
+HOW TO CAPTURE:
+1. Open file: COMPONENT_VERSIONS.md
+2. Show the table listing:
+   PHP 7.4+, MySQL 5.7+, Apache 2.4+
+   Bootstrap 5.3.3, SweetAlert2 11.x
+3. Take screenshot
+
+FILE TO OPEN: COMPONENT_VERSIONS.md
+SAVE AS: Screenshot_C09_components.png
+
+---
+
+Screenshot C10 - File Upload Security
+--------------------------------------
+WHAT TO SHOW: File uploads are validated
+
+HOW TO CAPTURE:
+1. Open file: api/upload-evidence.php
+2. Show validation code:
+   - File type checking
+   - File size limits
+   - Filename sanitization
+3. Take screenshot
+
+ALTERNATE VIEW:
+1. Open browser to IPCR form with file upload
+2. Try uploading a .php file (should be rejected)
+3. Take screenshot of error message
+
+FILE TO OPEN: api/upload-evidence.php
+SAVE AS: Screenshot_C10_file_upload.png
+
+---
+
+Screenshot C11 - SSRF
+----------------------
+NOT APPLICABLE - No screenshot needed
+(System doesn't fetch user-supplied URLs)
+
+---
+
+Screenshot C12 - Logging and Monitoring
+----------------------------------------
+SAME AS A02 - Use Screenshot_A02_audit_log.png
+
+================================================================================
+SECTION D: SESSION MANAGEMENT
+================================================================================
+
+Screenshot D01 - HTTPS Redirect
+--------------------------------
+WHAT TO SHOW: HTTPS redirect ready for production
+
+HOW TO CAPTURE:
+1. Open file: .htaccess
+2. Show the HTTPS redirect rules (lines 8-12):
+   <IfModule mod_rewrite.c>
+       RewriteEngine On
+       RewriteCond %{HTTPS} off
+       RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+   </IfModule>
+3. Point out it's commented for localhost (can be uncommented for production)
+4. Take screenshot
+
+FILE TO OPEN: .htaccess
+SAVE AS: Screenshot_D01_https_redirect.png
+
+---
+
+Screenshot D02 - Secure Cookie Flag
+------------------------------------
+WHAT TO SHOW: Secure flag enabled when HTTPS detected
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Show lines 13-15:
+   if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+       ini_set('session.cookie_secure', 1);
+   }
+3. Take screenshot
+
+FILE TO OPEN: config/auth.php (lines 13-15)
+SAVE AS: Screenshot_D02_secure_flag.png
+
+---
+
+Screenshot D03 - HttpOnly Flag
+-------------------------------
+WHAT TO SHOW: HttpOnly flag set
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Show line 11:
+   ini_set('session.cookie_httponly', 1);
+3. Take screenshot
+
+FILE TO OPEN: config/auth.php (line 11)
+SAVE AS: Screenshot_D03_httponly.png
+
+---
+
+Screenshot D04 - SameSite Setting
+----------------------------------
+WHAT TO SHOW: SameSite=Strict set
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Show line 14:
+   ini_set('session.cookie_samesite', 'Strict');
+3. Take screenshot
+
+FILE TO OPEN: config/auth.php (line 14)
+SAVE AS: Screenshot_D04_samesite.png
+
+---
+
+Screenshot D05 - Session ID Rotation
+-------------------------------------
+WHAT TO SHOW: Session regenerated on login and periodically
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Show session_regenerate_id(true) calls:
+   - Line 19 (on session start)
+   - Line 31 (every 30 minutes)
+   - Line 193 (on login)
+3. Take screenshot showing at least 2 instances
+
+FILE TO OPEN: config/auth.php
+SAVE AS: Screenshot_D05_session_rotation.png
+
+---
+
+Screenshot D06 - Idle Timeout
+------------------------------
+WHAT TO SHOW: 30-minute idle timeout implemented
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Show lines 24-34 (idle timeout check):
+   $idleTimeout = 1800; // 30 minutes
+   if ((time() - $_SESSION['last_activity']) > $idleTimeout) {
+       session_unset();
+       session_destroy();
+   }
+   $_SESSION['last_activity'] = time();
+3. Take screenshot
+
+FILE TO OPEN: config/auth.php (lines 24-34)
+SAVE AS: Screenshot_D06_idle_timeout.png
+
+---
+
+Screenshot D07 - Server-Side Logout
+------------------------------------
+WHAT TO SHOW: Logout destroys session
+
+HOW TO CAPTURE:
+1. Open file: config/auth.php
+2. Show logoutUser() function (around line 208):
+   $_SESSION = [];
+   session_destroy();
+3. Take screenshot
+
+FILE TO OPEN: config/auth.php (logoutUser function)
+SAVE AS: Screenshot_D07_logout.png
+
+================================================================================
+SECTION E: AUTHORIZATION AND ACCESS CONTROL
+================================================================================
+
+Screenshot E01 - Function-Level Authorization
+----------------------------------------------
+SAME AS A05 or C01 - Use Screenshot_A05_require_role.png
+
+---
+
+Screenshot E02 - Object-Level Authorization
+--------------------------------------------
+WHAT TO SHOW: Users can only access own records
+
+HOW TO CAPTURE:
+1. Open file: faculty/ipcr-form.php (or similar)
+2. Find query with: WHERE user_id = ?
+3. Show that $_SESSION['user_id'] is used as parameter
+4. Take screenshot
+
+EXAMPLE:
+$stmt = $db->prepare("SELECT * FROM ipcr_forms WHERE user_id = ? AND id = ?");
+$stmt->execute([$_SESSION['user_id'], $formId]);
+
+FILE TO OPEN: faculty/ipcr-form.php or faculty/ipcr-view.php
+SAVE AS: Screenshot_E02_object_authorization.png
+
+---
+
+Screenshot E03 - Field-Level Authorization
+-------------------------------------------
+WHAT TO SHOW: Only admins can change user roles
+
+HOW TO CAPTURE:
+1. Open file: admin/users.php
+2. Find code that checks role before allowing role/status changes
+3. Show requireRole('admin', 'dean') at top
+4. Take screenshot
+
+FILE TO OPEN: admin/users.php
+SAVE AS: Screenshot_E03_field_authorization.png
+
+---
+
+Screenshot E04 - Tenant Isolation
+----------------------------------
+WHAT TO SHOW: Deans see only assigned faculty
+
+HOW TO CAPTURE:
+1. Open file: dean/review-queue.php or dean/faculty.php
+2. Find query with: WHERE assigned_dean_id = ?
+3. Show filtering by dean's ID
+4. Take screenshot
+
+FILE TO OPEN: dean/review-queue.php
+SAVE AS: Screenshot_E04_tenant_isolation.png
+
+================================================================================
+SECTION F: VALIDATION, CONFIGURATION, AND RETESTING
+================================================================================
+
+Screenshot F01 - Server-Side Validation
+----------------------------------------
+WHAT TO SHOW: Input validated on server
+
+HOW TO CAPTURE:
+1. Open file: admin/users.php
+2. Find POST handler section (around lines 30-100)
+3. Show validation code like:
+   if (empty($employeeId)) {
+       $errors[] = 'Employee ID is required';
+   }
+   if (strlen($pw) < 8) {
+       $errors[] = 'Password must be at least 8 characters';
+   }
+4. Take screenshot
+
+FILE TO OPEN: admin/users.php (validation section)
+SAVE AS: Screenshot_F01_server_validation.png
+
+---
+
+Screenshot F02 - Error Message Safety
+--------------------------------------
+SAME AS A08 - Use Screenshot_A08_generic_errors.png
+
+---
+
+Screenshot F03 - Secret Handling
+---------------------------------
+SAME AS C08 - Use Screenshot_C08_secret_handling.png
+
+---
+
+Screenshot F04 - CORS
+----------------------
+NOT APPLICABLE - No screenshot needed
+(No cross-origin API endpoints)
+
+---
+
+Screenshot F05 - Backup and Recovery
+-------------------------------------
+WHAT TO SHOW: Backup procedures documented
+
+HOW TO CAPTURE:
+1. Open file: PRODUCTION_DEPLOYMENT_GUIDE.md
+2. Find "Backup Strategy" section
+3. Show backup commands and procedures
+4. Take screenshot
+
+FILE TO OPEN: PRODUCTION_DEPLOYMENT_GUIDE.md
+SAVE AS: Screenshot_F05_backup.png
+
+---
+
+Screenshot F06 - Remediation Retest
+------------------------------------
+WHAT TO SHOW: All fixes verified
+
+HOW TO CAPTURE:
+1. Open file: SECURITY_FIXES_COMPLETED.md
+2. Show section listing all fixes with "FIXED" or "DOCUMENTED" status
+3. Take screenshot
+
+FILE TO OPEN: SECURITY_FIXES_COMPLETED.md
+SAVE AS: Screenshot_F06_retest_results.png
+
+================================================================================
+SUMMARY - REQUIRED SCREENSHOTS
+================================================================================
+
+TOTAL SCREENSHOTS NEEDED: 35 unique screenshots
+
+Core Principles (A): 10 screenshots
+Threat & Risk (B): 6 screenshots  
+Common Threats (C): 10 screenshots (2 N/A)
+Session Management (D): 7 screenshots
+Authorization (E): 4 screenshots (some reuse from A/C)
+Validation (F): 6 screenshots (2 N/A, some reuse)
+
+REUSABLE SCREENSHOTS (same evidence for multiple tests):
+- A04 = C05 (Authentication/bcrypt)
+- A02 = C12 (Audit logging)
+- A05 = C01 = E01 (Authorization)
+- A08 = F02 (Error messages)
+- A09 = C07 (Production settings)
+- C08 = F03 (Secret handling)
+
+ACTUAL UNIQUE SCREENSHOTS: ~25-30
+
+================================================================================
+QUICK CHECKLIST
+================================================================================
+
+Copy this and check off as you complete each screenshot:
+
+SECTION A:
+[ ] A01 - .env system
+[ ] A02 - Audit log
+[ ] A03 - Account lockout
+[ ] A04 - bcrypt hashing
+[ ] A05 - requireRole
+[ ] A06 - DB permissions guide
+[ ] A07 - Multiple security layers
+[ ] A08 - Generic errors
+[ ] A09 - Production settings
+[ ] A10 - Minimal data collection
+
+SECTION B:
+[ ] B01 - Assets documented
+[ ] B02 - Threats documented
+[ ] B03 - Defect log
+[ ] B04 - Code review evidence
+[ ] B05 - Impact assessment
+[ ] B06 - Risk score improvement
+
+SECTION C:
+[ ] C01 - Access control (reuse A05)
+[ ] C02 - Prepared statements
+[ ] C03 - h() function (XSS)
+[ ] C04 - CSRF tokens
+[ ] C05 - Authentication (reuse A04)
+[ ] C06 - Session security
+[ ] C07 - Misconfiguration (reuse A09)
+[ ] C08 - Secret handling
+[ ] C09 - Component versions
+[ ] C10 - File upload validation
+[ ] C11 - N/A (no screenshot)
+[ ] C12 - Logging (reuse A02)
+
+SECTION D:
+[ ] D01 - HTTPS redirect
+[ ] D02 - Secure flag
+[ ] D03 - HttpOnly flag
+[ ] D04 - SameSite setting
+[ ] D05 - Session rotation
+[ ] D06 - Idle timeout
+[ ] D07 - Logout
+
+SECTION E:
+[ ] E01 - Function auth (reuse A05/C01)
+[ ] E02 - Object auth
+[ ] E03 - Field auth
+[ ] E04 - Tenant isolation
+
+SECTION F:
+[ ] F01 - Server validation
+[ ] F02 - Error safety (reuse A08)
+[ ] F03 - Secrets (reuse C08)
+[ ] F04 - N/A (no screenshot)
+[ ] F05 - Backup documentation
+[ ] F06 - Retest results
+
+================================================================================
+TIPS FOR GOOD SCREENSHOTS
+================================================================================
+
+1. CLARITY
+   - Use full screen or maximize windows
+   - Zoom code to 110-120% if needed
+   - Make sure text is readable
+
+2. CONTEXT
+   - Show filename in title bar or path
+   - Show line numbers if possible
+   - Include surrounding code for context
+
+3. HIGHLIGHTING
+   - Use red arrows or boxes to point out key parts
+   - Circle important sections
+   - Add text labels if helpful
+
+4. ORGANIZATION
+   - Name files exactly as indicated (Screenshot_A01.png, etc.)
+   - Keep all in one folder: Security_Evidence/
+   - Create a simple index document listing what each shows
+
+5. REDACTION
+   - Blur or black out real passwords
+   - Hide real database credentials
+   - Keep test/demo data visible
+
+================================================================================
+END OF SCREENSHOT GUIDE
+================================================================================
+
+FINAL NOTE:
+Not all screenshots need to be unique. Many tests share the same evidence
+(as noted above with "reuse"). You can reference the same screenshot file
+multiple times in your report.
+
+Total time estimate: 2-3 hours to capture all screenshots and organize them.
+
+Good luck! 🎯

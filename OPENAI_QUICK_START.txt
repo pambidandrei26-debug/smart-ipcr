@@ -1,0 +1,275 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║          🤖 OPENAI SETUP - QUICK START GUIDE 🤖              ║
+║                                                               ║
+║              IPCR System AI Verification Setup                ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📋 WHAT YOU NEED:
+   ☑ Email account (Gmail recommended)
+   ☑ Credit/debit card
+   ☑ 10-15 minutes
+   ☑ Internet connection
+
+💰 COST: ₱30-120/month (less than a coffee!)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📌 STEP 1: CREATE OPENAI ACCOUNT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Go to: https://platform.openai.com
+2. Click "Sign Up"
+3. Choose "Continue with Google" (easiest)
+4. Select your Gmail account
+5. Complete profile (name, organization)
+
+✅ DONE: You now have an OpenAI account!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💳 STEP 2: ADD PAYMENT METHOD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Click "Settings" (bottom left)
+2. Click "Billing"
+3. Click "Add payment method"
+4. Enter card details:
+   • Card number
+   • Expiration date
+   • CVC code
+   • Billing address
+5. Click "Add payment method"
+6. SET BUDGET LIMIT: $5-10 USD (prevents surprises!)
+7. Enable email alerts (75% and 100%)
+8. Add $10 credits (recommended for start)
+
+✅ DONE: Payment configured!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔑 STEP 3: CREATE API KEY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Click "API keys" (left sidebar)
+   Or go to: https://platform.openai.com/api-keys
+
+2. Click "+ Create new secret key"
+
+3. Name it: "IPCR Evidence Verification"
+
+4. Click "Create secret key"
+
+5. ⚠️ COPY THE KEY IMMEDIATELY! ⚠️
+   It looks like: sk-proj-xxxxxxxxxxxxxxxxx
+   
+6. Paste it in:
+   • Notepad
+   • Text file
+   • Password manager
+   
+⚠️ WARNING: You can only see this ONCE!
+
+✅ DONE: API key created and saved!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🖥️ STEP 4: ADD TO IPCR SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Open browser → http://localhost/ipcr-system
+
+2. Login as Admin:
+   Username: ADMIN001
+   Password: Admin@2024
+
+3. Click "Admin" → "Settings"
+
+4. Scroll to "AI Evidence Verification" section (purple box)
+
+5. Select "OpenAI" provider (click the box)
+
+6. Paste your API key in the text field
+
+7. Choose verification mode:
+   • ADVISORY (recommended for start)
+     - AI gives feedback but doesn't block
+   • STRICT (for production later)
+     - AI blocks bad uploads
+   • DISABLED (not recommended)
+
+8. Click "Save" button
+
+9. Wait for message: "✅ AI settings saved..."
+
+✅ DONE: OpenAI connected to your system!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ STEP 5: TEST IT!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Logout from Admin
+
+2. Login as Faculty:
+   Username: ICT-001
+   Password: Faculty@2024
+
+3. Go to "IPCR Form"
+
+4. Find any Success Indicator
+
+5. Click "Upload Evidence"
+
+6. Select a PDF file (syllabus, schedule, etc.)
+
+7. Upload it
+
+8. Watch for AI message:
+   "AI is checking..." → 2-5 seconds
+   
+9. See AI result:
+   ✅ Valid Evidence (85% confidence)
+   Document Type: Syllabus
+   Reason: Matches expected evidence
+   
+✅ SUCCESS! AI is working! 🎉
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 COST CALCULATOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Each evidence check: ₱0.06-0.11
+100 uploads: ₱6-12
+1000 uploads: ₱60-120
+
+MONTHLY ESTIMATES:
+┌─────────────┬────────────────┬─────────────┐
+│   Faculty   │  Uploads/Month │ Monthly Cost│
+├─────────────┼────────────────┼─────────────┤
+│  10 faculty │   ~200 uploads │  ₱12-24    │
+│  50 faculty │  ~1000 uploads │  ₱60-120   │
+│ 100 faculty │  ~2000 uploads │ ₱120-240   │
+└─────────────┴────────────────┴─────────────┘
+
+Very affordable! 💰
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ "API key invalid"
+   → Copy key again carefully
+   → Remove spaces before/after
+   → Create new key if needed
+
+❌ "Insufficient credits"
+   → Add $5 credits on OpenAI platform
+   → Wait 2 minutes
+
+❌ "Rate limit exceeded"
+   → Wait 1 minute
+   → Try again
+   → Ensure payment method added
+
+❌ AI always says "uncertain"
+   → Use better filenames
+   → Good: Syllabus_BSIT_2024.pdf
+   → Bad: document.pdf
+
+❌ "AI check unavailable"
+   → Re-enter API key
+   → Check internet connection
+   → Wait 5 minutes, try again
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 BEST PRACTICES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ GOOD FILENAMES:
+   • Syllabus_BSIT_Programming_2024.pdf
+   • TeachingLoad_FirstSem_2024.pdf
+   • ClassSchedule_2024-2025.pdf
+
+❌ BAD FILENAMES:
+   • document.pdf
+   • file1.pdf
+   • 123.pdf
+
+📋 TIPS:
+   • Start with Advisory mode (1-2 weeks)
+   • Monitor usage weekly
+   • Set $10 budget limit
+   • Train faculty on good naming
+   • Use PDF format when possible
+   • Switch to Strict mode after training
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📌 IMPORTANT URLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OpenAI Platform: https://platform.openai.com
+API Keys:        https://platform.openai.com/api-keys
+Billing:         https://platform.openai.com/settings/organization/billing
+Usage Monitor:   https://platform.openai.com/usage
+Status Page:     https://status.openai.com
+
+IPCR System:     http://localhost/ipcr-system
+Admin Settings:  Admin → Settings → AI Evidence Verification
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ SETUP CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Print and check off:
+
+□ Created OpenAI account
+□ Added payment method
+□ Set budget limit ($10)
+□ Added credits ($10)
+□ Created API key
+□ Copied key safely
+□ Logged into IPCR as Admin
+□ Opened Settings page
+□ Selected OpenAI provider
+□ Pasted API key
+□ Selected Advisory mode
+□ Clicked Save
+□ Saw success message
+□ Tested with faculty account
+□ Uploaded test file
+□ Saw AI feedback
+□ Set email alerts
+□ Bookmarked OpenAI dashboard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 YOU'RE DONE!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Your IPCR system now has AI-powered evidence verification!
+
+WHAT HAPPENS NOW:
+✅ Every upload gets instant AI check
+✅ Faculty see real-time feedback
+✅ Evidence quality improves
+✅ Dean review time reduced
+✅ Smart validation 24/7
+
+COST: ₱30-120/month (very affordable!)
+
+Need help? See: OPENAI_SETUP_GUIDE.md (full detailed guide)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Created: October 17, 2026
+Version: 1.0
+For: IPCR Management System with OpenAI
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
